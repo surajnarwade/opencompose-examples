@@ -1,0 +1,13 @@
+version: 0.1-dev
+services:
+- name: web
+  containers:
+  - image: tuna/docker-counter23
+    ports:
+    - port: 5000:5000
+
+- name: redis
+  containers:
+  - image: redis:3.0
+    ports:
+    - port: 6379
