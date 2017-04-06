@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: redis
+  name: redis
+spec:
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: redis
+    spec:
+      containers:
+      - image: redis:3.2.4
+        name: redis-0
+        ports:
+        - containerPort: 6379
+          name: port-6379
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/redis
+          name: db
+      volumes:
+      - emptyDir: {}
+        name: db
+status: {}

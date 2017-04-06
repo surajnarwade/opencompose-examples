@@ -1,0 +1,119 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: gitlab
+  name: gitlab
+spec:
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: gitlab
+    spec:
+      containers:
+      - env:
+        - name: DEBUG
+          value: "false"
+        - name: DB_TYPE
+          value: postgres
+        - name: DB_HOST
+          value: postgresql
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          value: gitlab
+        - name: DB_PASS
+          value: +BP52QIxpT/flVCMpL3KXA==
+        - name: DB_NAME
+          value: gitlab_production
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
+        - name: TZ
+          value: Asia/Kolkata
+        - name: GITLAB_TIMEZONE
+          value: Kolkata
+        - name: GITLAB_HTTPS
+          value: "false"
+        - name: SSL_SELF_SIGNED
+          value: "false"
+        - name: GITLAB_HOST
+          value: localhost
+        - name: GITLAB_PORT
+          value: "80"
+        - name: GITLAB_SSH_PORT
+          value: "1022"
+        - name: GITLAB_SECRETS_DB_KEY_BASE
+          value: P26qS5+Csz50Dkd0DLM2oN9owVBFg0PB
+        - name: GITLAB_SECRETS_SECRET_KEY_BASE
+          value: KVaMTKLAIElEp0s4L02c1O9JCP0Rfapb
+        - name: GITLAB_SECRETS_OTP_KEY_BASE
+          value: nXJJ358Qnci0yF9qpAsLrF2vImaoFR03
+        - name: GITLAB_ROOT_PASSWORD
+          value: root
+        - name: GITLAB_ROOT_EMAIL
+          value: root@example.com
+        - name: GITLAB_NOTIFY_ON_BROKEN_BUILDS
+          value: "true"
+        - name: GITLAB_NOTIFY_PUSHER
+          value: "false"
+        - name: GITLAB_EMAIL
+          value: notifications@example.com
+        - name: GITLAB_EMAIL_REPLY_TO
+          value: noreply@example.com
+        - name: GITLAB_INCOMING_EMAIL_ADDRESS
+          value: reply@example.com
+        - name: GITLAB_BACKUP_SCHEDULE
+          value: daily
+        - name: GITLAB_BACKUP_TIME
+          value: "01:00"
+        - name: SMTP_ENABLED
+          value: "false"
+        - name: SMTP_DOMAIN
+          value: '""'
+        - name: SMTP_HOST
+          value: '""'
+        - name: SMTP_PORT
+          value: '""'
+        - name: SMTP_USER
+          value: '""'
+        - name: SMTP_PASS
+          value: '""'
+        - name: SMTP_STARTTLS
+          value: "true"
+        - name: SMTP_AUTHENTICATION
+          value: login
+        - name: IMAP_ENABLED
+          value: "false"
+        - name: IMAP_HOST
+          value: imap.gmail.com
+        - name: IMAP_PORT
+          value: "993"
+        - name: IMAP_USER
+          value: mailer@example.com
+        - name: IMAP_PASS
+          value: password
+        - name: IMAP_SSL
+          value: "true"
+        - name: IMAP_STARTTLS
+          value: "false"
+        image: sameersbn/gitlab:8.16.3
+        name: gitlab-0
+        ports:
+        - containerPort: 80
+          name: port-80
+        - containerPort: 1022
+          name: port-1022
+        resources: {}
+        volumeMounts:
+        - mountPath: /home/git/data
+          name: db
+      volumes:
+      - emptyDir: {}
+        name: db
+status: {}

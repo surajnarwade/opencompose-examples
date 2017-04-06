@@ -3,50 +3,51 @@ version: 0.1-dev
 services:
 - name:  redis
   containers:
-   # restart: always
-  - image: sameersbn/redis:latest
-  #  command:
-   # - --loglevel warning
+  - image: redis:3.2.4
     mounts:
     - volumeName: db
       mountPath: /var/lib/redis
     ports:
     - port: 6379
+  emptyDirVolumes: 
+  - name: db
 
 - name: postgresql
   containers:
-   # restart: always
   - image: sameersbn/postgresql:9.5-3
     mounts:
     - volumeName: db
       mountPath: /var/lib/postgresql
     env:
     - DB_USER=gitlab
-    - DB_PASS=password
-    - DB_NAME=gitlabhq_production
+    - DB_PASS=+BP52QIxpT/flVCMpL3KXA==
+    - DB_NAME=gitlab_production
     - DB_EXTENSION=pg_trgm
     ports:
     - port: 5432
+  emptyDirVolumes:
+  - name: db
 
 - name: gitlab
   containers:
-   # restart: always
-  - image: sameersbn/gitlab:8.13.3
+  - image: sameersbn/gitlab:8.16.3
     ports:
-    - port: 10080:80
-    - port: 10022:22
+    - port: 80:80
+      type: external
+    - port: 1022:22
+      type: external
     mounts:
     - volumeName: db
       mountPath: /home/git/data
     env:
     - DEBUG=false
 
-    - DB_ADAPTER=postgresql
+    - DB_TYPE=postgres
     - DB_HOST=postgresql
     - DB_PORT=5432
     - DB_USER=gitlab
-    - DB_PASS=password
-    - DB_NAME=gitlabhq_production
+    - DB_PASS=+BP52QIxpT/flVCMpL3KXA==
+    - DB_NAME=gitlab_production
 
     - REDIS_HOST=redis
     - REDIS_PORT=6379
@@ -58,15 +59,15 @@ services:
     - SSL_SELF_SIGNED=false
 
     - GITLAB_HOST=localhost
-    - GITLAB_PORT=10080
-    - GITLAB_SSH_PORT=10022
-    - GITLAB_RELATIVE_URL_ROOT=tempenv
-    - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
-    - GITLAB_SECRETS_SECRET_KEY_BASE=long-and-random-alphanumeric-string
-    - GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alphanumeric-string
+    - GITLAB_PORT=80
+    - GITLAB_SSH_PORT=1022
 
-    - GITLAB_ROOT_PASSWORD=tempenv
-    - GITLAB_ROOT_EMAIL=tempenv
+    - GITLAB_SECRETS_DB_KEY_BASE=P26qS5+Csz50Dkd0DLM2oN9owVBFg0PB
+    - GITLAB_SECRETS_SECRET_KEY_BASE=KVaMTKLAIElEp0s4L02c1O9JCP0Rfapb
+    - GITLAB_SECRETS_OTP_KEY_BASE=nXJJ358Qnci0yF9qpAsLrF2vImaoFR03
+
+    - GITLAB_ROOT_PASSWORD=root
+    - GITLAB_ROOT_EMAIL=root@example.com
 
     - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
     - GITLAB_NOTIFY_PUSHER=false
@@ -79,11 +80,11 @@ services:
     - GITLAB_BACKUP_TIME=01:00
 
     - SMTP_ENABLED=false
-    - SMTP_DOMAIN=www.example.com
-    - SMTP_HOST=smtp.gmail.com
-    - SMTP_PORT=587
-    - SMTP_USER=mailer@example.com
-    - SMTP_PASS=password
+    - SMTP_DOMAIN=""
+    - SMTP_HOST=""
+    - SMTP_PORT=""
+    - SMTP_USER=""
+    - SMTP_PASS=""
     - SMTP_STARTTLS=true
     - SMTP_AUTHENTICATION=login
 
@@ -94,58 +95,6 @@ services:
     - IMAP_PASS=password
     - IMAP_SSL=true
     - IMAP_STARTTLS=false
-    - OAUTH_ENABLED=false
-    - OAUTH_AUTO_SIGN_IN_WITH_PROVIDER=tempenv
-    - OAUTH_ALLOW_SSO=tempenv
-    - OAUTH_BLOCK_AUTO_CREATED_USERS=true
-    - OAUTH_AUTO_LINK_LDAP_USER=false
-    - OAUTH_AUTO_LINK_SAML_USER=false
-    - OAUTH_EXTERNAL_PROVIDERS=tempenv
-    - OAUTH_CAS3_LABEL=cas3
-    - OAUTH_CAS3_SERVER=tempenv
-    - OAUTH_CAS3_DISABLE_SSL_VERIFICATION=false
-    - OAUTH_CAS3_LOGIN_URL=/cas/login
-    - OAUTH_CAS3_VALIDATE_URL=/cas/p3/serviceValidate
-    - OAUTH_CAS3_LOGOUT_URL=/cas/logout
-    - OAUTH_GOOGLE_API_KEY=tempenv
-    - OAUTH_GOOGLE_APP_SECRET=tempenv
-    - OAUTH_GOOGLE_RESTRICT_DOMAIN=tempenv
-    - OAUTH_FACEBOOK_API_KEY=tempenv
-    - OAUTH_FACEBOOK_APP_SECRET=tempenv
-    - OAUTH_TWITTER_API_KEY=tempenv
-    - OAUTH_TWITTER_APP_SECRET=tempenv
-    - OAUTH_GITHUB_API_KEY=tempenv
-    - OAUTH_GITHUB_APP_SECRET=tempenv
-    - OAUTH_GITHUB_URL=tempenv
-    - OAUTH_GITHUB_VERIFY_SSL=tempenv
-    - OAUTH_GITLAB_API_KEY=tempenv
-    - OAUTH_GITLAB_APP_SECRET=tempenv
-    - OAUTH_BITBUCKET_API_KEY=tempenv
-    - OAUTH_BITBUCKET_APP_SECRET=tempenv
-    - OAUTH_SAML_ASSERTION_CONSUMER_SERVICE_URL=tempenv
-    - OAUTH_SAML_IDP_CERT_FINGERPRINT=tempenv
-    - OAUTH_SAML_IDP_SSO_TARGET_URL=tempenv
-    - OAUTH_SAML_ISSUER=tempenv
-    - OAUTH_SAML_LABEL="Our SAML Provider"
-    - OAUTH_SAML_NAME_IDENTIFIER_FORMAT=urn:oasis:names:tc:SAML:2.0:nameid-format:transient
-    - OAUTH_SAML_GROUPS_ATTRIBUTE=tempenv
-    - OAUTH_SAML_EXTERNAL_GROUPS=tempenv
-    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_EMAIL=tempenv
-    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_NAME=tempenv
-    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_FIRST_NAME=tempenv
-    - OAUTH_SAML_ATTRIBUTE_STATEMENTS_LAST_NAME=tempenv
-    - OAUTH_CROWD_SERVER_URL=tempenv
-    - OAUTH_CROWD_APP_NAME=tempenv
-    - OAUTH_CROWD_APP_PASSWORD=tempenv
-    - OAUTH_AUTH0_CLIENT_ID=tempenv
-    - OAUTH_AUTH0_CLIENT_SECRET=tempenv
-    - OAUTH_AUTH0_DOMAIN=tempenv
-    - OAUTH_AZURE_API_KEY=tempenv
-    - OAUTH_AZURE_API_SECRET=tempenv
-    - OAUTH_AZURE_TENANT_ID=tempenv
-  
-volumes:
-- name: db
-  size: 5Gi
-  accessMode: ReadWriteMany
-  storageClass: fast 
+  emptyDirVolumes:
+  - name: db
+   

@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: postgresql
+  name: postgresql
+spec:
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: postgresql
+    spec:
+      containers:
+      - env:
+        - name: DB_USER
+          value: gitlab
+        - name: DB_PASS
+          value: +BP52QIxpT/flVCMpL3KXA==
+        - name: DB_NAME
+          value: gitlab_production
+        - name: DB_EXTENSION
+          value: pg_trgm
+        image: sameersbn/postgresql:9.5-3
+        name: postgresql-0
+        ports:
+        - containerPort: 5432
+          name: port-5432
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/postgresql
+          name: db
+      volumes:
+      - emptyDir: {}
+        name: db
+status: {}
