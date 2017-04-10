@@ -1,0 +1,33 @@
+version: 0.1-dev
+
+services:
+- name: vote
+  containers:
+  - image: docker/example-voting-app-vote:latest
+    ports:
+    - port: 80:80
+      type: external
+
+- name: redis
+  containers:
+  - image: redis:alpine
+    ports: 
+    - port: 6379
+
+- name: worker
+  containers:
+  - image: docker/example-voting-app-worker:latest
+
+- name: db
+  containers:
+  - image: postgres:9.4
+    ports:
+    - port: 5432
+
+- name: result
+  containers:
+  - image: tmadams333/example-voting-app-result:latest
+    ports:
+    - port: 80:8081
+      type: external
+

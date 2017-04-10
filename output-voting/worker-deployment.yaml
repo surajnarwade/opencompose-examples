@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: worker
+  name: worker
+spec:
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: worker
+    spec:
+      containers:
+      - image: docker/example-voting-app-worker:latest
+        name: worker-0
+        resources: {}
+status: {}
