@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: redis-master
+  name: redis-master
+spec:
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: redis-master
+    spec:
+      containers:
+      - image: gcr.io/google_containers/redis:e2e
+        name: redis-master-0
+        ports:
+        - containerPort: 6379
+          name: port-6379
+        resources: {}
+status: {}
