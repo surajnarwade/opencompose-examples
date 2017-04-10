@@ -23,4 +23,7 @@ open-voting.yml
 * raised issue regarding port mapping
     - https://github.com/redhat-developer/opencompose/issues/93
 
+open-guestbook.yml
+------------------
 
+* docker-compose file is [here](https://github.com/kubernetes-incubator/kompose/blob/master/examples/docker-guestbook.yml)
