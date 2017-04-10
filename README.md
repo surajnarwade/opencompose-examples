@@ -27,3 +27,8 @@ open-guestbook.yml
 ------------------
 
 * docker-compose file is [here](https://github.com/kubernetes-incubator/kompose/blob/master/examples/docker-guestbook.yml)
+
+open-meanstack.yml
+------------------
+
+* Example reference: https://kubernetes.io/docs/getting-started-guides/meanstack/
