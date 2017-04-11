@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: phabricator
+  name: phabricator
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: phabricator
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_SERVICE_IP
+          value: database
+        - name: MYSQL_SERVICE_PORT
+          value: "3306"
+        - name: MYSQL_PASSWORD
+          value: "1234"
+        image: fgrzadkowski/example-php-phabricator
+        name: phabricator-0
+        ports:
+        - containerPort: 80
+          name: port-80
+        resources: {}
+status: {}

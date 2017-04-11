@@ -1,0 +1,25 @@
+version: 0.1-dev
+services:
+- name: phabricator
+  replicas: 1
+  containers:
+  - image: fgrzadkowski/example-php-phabricator
+    ports: 
+    - port: 80
+      type: external
+    env:
+    - MYSQL_SERVICE_IP=database
+    - MYSQL_SERVICE_PORT=3306
+    - MYSQL_PASSWORD=1234
+
+- name: database
+  containers:
+  - image: mariadb:10
+    env:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=guestbook
+      - MYSQL_USER=phabricator
+      - MYSQL_PASSWORD=1234
+    ports:
+    - port: 3306
+

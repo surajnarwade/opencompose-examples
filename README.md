@@ -32,3 +32,8 @@ open-meanstack.yml
 ------------------
 
 * Example reference: https://kubernetes.io/docs/getting-started-guides/meanstack/
+
+open-phabricator.yml
+--------------------
+
+* Example reference: https://github.com/kubernetes/kubernetes/tree/master/examples/phabricator

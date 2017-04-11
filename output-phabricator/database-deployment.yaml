@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: database
+  name: database
+spec:
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: database
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "1234"
+        - name: MYSQL_DATABASE
+          value: guestbook
+        - name: MYSQL_USER
+          value: phabricator
+        - name: MYSQL_PASSWORD
+          value: "1234"
+        image: mariadb:10
+        name: database-0
+        ports:
+        - containerPort: 3306
+          name: port-3306
+        resources: {}
+status: {}
